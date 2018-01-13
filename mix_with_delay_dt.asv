@@ -1,0 +1,28 @@
+function mixed_out = mix_with_delay_dt(x1, x2Bdelay, fs, delay_ms)
+assert(delay_ms<0,'delay should be positive')
+%%
+l_x1 = length(x1);
+l_x2 = length(x2Bdelay);
+N_delay  = ceil(delay_ms/1000*fs); 
+%% 
+if l_x1<l_x2+N_delay
+    % if
+    % (---------x1-------)
+    % (delay)(------------x2-------)
+    l_out = l_x2+N_delay;
+else
+    % else
+    % (-------------------x1------------)
+    % (delay)(------------x2-------)
+    l_out = l_x1;
+end
+
+mixed_out = zeros(1,l_out);
+mixed_out(1:l_x1) = x1(:);
+mixed_out(N_delay+1:N_delay+l_x2) = mixed_out(N_delay+1:N_delay+l_x2)+x2Bdelay(:);
+
+t_vec2 = t_vec+(ts*N_delay);
+subplot(234); plot(t_vec,y, t_vec2,y_phase180,'-r'); title('before mix')
+bins  = zeros(N_delay,1);
+mixed_sound = [y;bins]+[bins;y_phase180];
+t_vec_mix = [t_vec, l_y+ts:ts:l_y+ts*N_delay];
