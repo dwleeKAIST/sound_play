@@ -15,13 +15,13 @@ pause;
 %% simulation for v(t) + v(t+dt)
 delay_ms = 10;
 [mixed1,t_vec1] = mix_with_delay_dt( y, fs, y, delay_ms ); 
-subplot(222); plot(t_vec1,mixed1); title(['v(t)+v(t+' num2str(delay_ms) ')']);axis([-inf,inf,-2,2])
+subplot(222); plot(t_vec1,mixed1); title(['v(t)+v(t-' num2str(delay_ms) ')']);axis([-inf,inf,-2,2])
 sound(mixed1,fs); 
 pause;
 
 %%  v(t) + v'(t+dt)
 [mixed2,t_vec2] = mix_with_delay_dt( y, fs, -y, delay_ms ); 
-subplot(223); plot(t_vec2,mixed2); title(['v(t)-v(t+' num2str(delay_ms) ')']);axis([-inf,inf,-2,2])
+subplot(223); plot(t_vec2,mixed2); title(['v(t)-v(t-' num2str(delay_ms) ')']);axis([-inf,inf,-2,2])
 sound(mixed2,fs); 
 pause;
 
@@ -30,7 +30,7 @@ delay1 = 5;
 delay2 = 10;
 [mixed3,t_vec3] = mix_with_delay_dt( y, fs, y, delay1 );
 [mixed4,t_vec4] = mix_with_delay_dt( mixed3, fs, -y, delay2,1 );
-subplot(224); plot(t_vec4,mixed4); title(['v(t)-v(t+' num2str(delay1) ')+v(t+' num2str(delay2) ')']);axis([-inf,inf,-2,2])
+subplot(224); plot(t_vec4,mixed4); title(['v(t)+v(t-' num2str(delay1) ')-v(t-' num2str(delay2) ')']);axis([-inf,inf,-2,2])
 sound(mixed2,fs); 
 
 
