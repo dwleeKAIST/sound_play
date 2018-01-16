@@ -1,3 +1,5 @@
+addpath('bin')
+%%
 src    = 'source\harvey_gonads.wav';
 %src    = 'source\eastwood_lawyers.wav';
 [y, fs] = audioread(src);
@@ -33,4 +35,8 @@ delay2 = 10;
 subplot(224); plot(t_vec4,mixed4); title(['v(t)+v(t-' num2str(delay1) ')-v(t-' num2str(delay2) ')']);axis([-inf,inf,-2,2])
 sound(mixed2,fs); 
 
-
+%% 
+if ~exist('result')
+    mkdir('result')
+end
+audiowrite(['result/mix_' num2str(delay1) 'ms_' num2str(delay2) 'ms.wav'],mixed4,fs)
