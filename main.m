@@ -39,4 +39,4 @@ sound(mixed2,fs);
 if ~exist('result')
     mkdir('result')
 end
-audiowrite(['result/mix_' num2str(delay1) 'ms_' num2str(delay2) 'ms.wav'],mixed4,fs)
+% audiowrite(['result/mix_' num2str(delay1) 'ms_' num2str(delay2) 'ms.wav'],mixed4,fs)
