@@ -1,4 +1,4 @@
-function [xq, vq] = get_frqRsp(varargin)
+function [freqRange, freqResp] = get_frqRsp(varargin)
 ai      = 1; params  = {}; values  = {};
 while ai <= length(varargin)
     params{end + 1}     = varargin{ai}; ai = ai + 1;
@@ -8,20 +8,14 @@ end
 lpath  = 'mic_response\';
 fname  =  'unknown';
 fig_num   = 1;
-f_min = 10;
-f_max = 40000;
-f_step = 1;
 for i = 1:length(params)
     switch params{i}
         case 'lpath';   lpath    = values{i};
         case 'fname';   fname    = values{i};
         case 'fig_num'; fig_num  = values{i};
-        case 'f_vec';   f_vec       = values{i};
-            f_min = min(f_min, f_vec(1));
-            f_max = max(f_max, f_vec(end));
-            f_step = f_vec(end)-f_vec(end-1);
     end
 end
+
 %%
 png_path = [lpath, fname];
 
@@ -40,7 +34,7 @@ min_max_x = find(grid_x(:)<255);
 idx1 = min_max(1):min_max(end);
 idx2 = min_max_x(1):min_max_x(end);
 %%
-graph_  = graph(idx1,idx2);
+graph_     = graph(idx1,idx2);
 graph_mask = (graph_>0);
 %%
 sz = size(graph_);
@@ -54,15 +48,8 @@ figure(fig_num);
 % subplot(221); imagesc(img(idx1,idx2,:));  colormap gray; title('orig PNG file')
 subplot(221); imagesc(img);  colormap gray; title('orig PNG file')
 subplot(223); plot(freqResp); axis([0, sz(2), -20, +20]); title('extracted FreqResp');
+freqResp(isnan(freqResp(:)))=-20;
 
-
-%% interpolation
-xq = f_min:f_step:f_max;
-vq = interp1(freqRange, freqResp,xq,'linear');
-vq(isnan(vq(:)))=-20;
-% vq(isnan(vq(:)))=0;
-figure(fig_num);
-subplot(224); semilogx(freqRange,freqResp,'o',xq,vq,':.'); grid on; title('interpolated FreqResp'); axis([f_min,f_max,-20,20]); 
 
 
 

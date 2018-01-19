@@ -1,16 +1,18 @@
-function [P1, f_vec] = getSingleSideMagnitudeSpectrum(xf, fs, justSS)
-if nargin < 3
-    L = length(xf);
+function [P1] = getSingleSideMagnitudeSpectrum(xf, justSS)
+
+L = length(xf);
+if nargin==1
     P2  = abs(xf/L);
-    if mod(L,2) % odd
-        keyboard;
-    else
-        P1  = P2(1:L/2+1);
-        P1(2:end-1) = 2*P1(2:end-1);
-    end
+    scale = 2;
 else
-    L = length(xf);
-    P1  = xf(1:L/2+1);
-    P1(2:end-1) = P1(2:end-1);
+    P2 = abs(xf);
+    scale = 1;
 end
-f_vec = fs*(0:(L/2))/L;
+%%
+% keyboard;
+if mod(L,2) % odd
+    keyboard;
+else
+    P1  = P2(1:L/2+1);
+    P1(2:end-1) = scale*P1(2:end-1);
+end
